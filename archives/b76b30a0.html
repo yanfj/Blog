@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Wj07_Grms7lUpE8ZC-kSQZ3VfO5CKfpnp625yBizZlU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanfj.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="CocoaPods不完全食用指南 — 入门篇">
+<meta property="og:url" content="http://blog.yanfj.com/archives/b76b30a0.html">
+<meta property="og:site_name" content="Yan&#39;s">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.yanfj.com/archives/b76b30a0/0.png">
+<meta property="article:published_time" content="2017-08-24T03:06:54.000Z">
+<meta property="article:modified_time" content="2020-05-13T11:18:42.041Z">
+<meta property="article:author" content="YAN">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content=" CocoaPods">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.yanfj.com/archives/b76b30a0/0.png">
+
+<link rel="canonical" href="http://blog.yanfj.com/archives/b76b30a0.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CocoaPods不完全食用指南 — 入门篇 | Yan's</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Yan's" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yan's</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user-secret fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/yanfj" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanfj.com/archives/b76b30a0.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yan's">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CocoaPods不完全食用指南 — 入门篇
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-08-24 11:06:54" itemprop="dateCreated datePublished" datetime="2017-08-24T11:06:54+08:00">2017-08-24</time>
+            </span>
+
+          
+            <span id="/archives/b76b30a0.html" class="post-meta-item leancloud_visitors" data-flag-title="CocoaPods不完全食用指南 — 入门篇" title="热力值">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-ravelry"></i>
+              </span>
+              <span class="post-meta-item-text">热力值：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/archives/b76b30a0/0.png" class="">
+
+<a id="more"></a>
+
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><hr>
+<h4 id="1-什么是-CocoaPods"><a href="#1-什么是-CocoaPods" class="headerlink" title="1. 什么是 CocoaPods"></a>1. 什么是 CocoaPods</h4><p>每种语言发展到一个阶段，就会出现相应的依赖管理工具，例如 <strong>Java</strong> 的 Maven 、<strong>Node.js</strong> 的 NPM 。而CocoaPods， 就是 <strong>OS X</strong> 和 <strong>iOS</strong> 下 的一个第三方库管理工具。它的源码在 <strong>Github</strong> 上管理，项目开始于 2011 年 8 月 12 日，经过多年发展，现在已经成为 <strong>OS X</strong> 和 <strong>iOS</strong>  开发的依赖管理标准工具，它的出现使得我们可以节省设置和更新第三方开源库的时间。</p>
+<h4 id="2-CocoaPods-的好处"><a href="#2-CocoaPods-的好处" class="headerlink" title="2. CocoaPods 的好处"></a>2. CocoaPods 的好处</h4><p>使用 CocoaPods 可以很方便地查找新的第三方库，在引入第三方库时可以自动为我们配置好依赖的环境，包括配置编译阶段、连接器选项，甚至是 ARC 环境下的 -fno-objc-arc 配置等。这些类库是比较“标准的”，从而可以便捷的管理第三方库。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><hr>
+<p>CocoaPods 依赖于 <strong>Ruby</strong> 环境，目前 <strong>OS X *<em>系统默认已经可以运行 *</em>Ruby</strong>。<strong>Gem</strong> 是一个管理 <strong>Ruby</strong> 库和程序的标准包，我们可以通过 <strong>Gem</strong> 安装 CocoaPods 。 </p>
+<h4 id="1-更换Ruby源"><a href="#1-更换Ruby源" class="headerlink" title="1. 更换Ruby源"></a>1. 更换Ruby源</h4><p>因为 <strong>Ruby</strong> 的软件源 <strong>rubygems.org</strong> 使用亚马逊的云服务，国内访问受限，需要更新一下<strong>ruby</strong>的源</p>
+<p><strong>注意：在终端输入命令时，取$后面部分输入</strong></p>
+<p>查看当前的 <strong>Ruby</strong> 源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem sources -l</span><br></pre></td></tr></table></figure>
+<p>移除当前的 <strong>Ruby</strong> 源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem sources --remove https://rubygems.org/</span><br></pre></td></tr></table></figure>
+<p>设置当前 <strong>Ruby</strong> 的源为国内的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem sources -a https://gems.ruby-china.com/</span><br></pre></td></tr></table></figure>
+<p>再次查看当前的 <strong>Ruby</strong> 源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem sources -l</span><br></pre></td></tr></table></figure>
+<p>如果 <strong>Terminal</strong> 输出：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*** CURRENT SOURCES ***</span><br><span class="line"></span><br><span class="line"><span class="symbol">https:</span>/<span class="regexp">/gems.ruby-china.com/</span></span><br></pre></td></tr></table></figure>
+<p>则 <strong>Ruby</strong> 源已经设置成功</p>
+<h4 id="2-升级Gem"><a href="#2-升级Gem" class="headerlink" title="2. 升级Gem"></a>2. 升级Gem</h4><p>如果 <strong>Gem</strong> 的版本过低也可能导致安装失败，先升级 <strong>Gem</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem update --system</span><br></pre></td></tr></table></figure>
+<p>升级成功后会提示: <strong>Latest version currently installed. Aborting.</strong></p>
+<h4 id="3-安装CocoaPods"><a href="#3-安装CocoaPods" class="headerlink" title="3. 安装CocoaPods"></a>3. 安装CocoaPods</h4><p>执行安装 CocoaPods 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install cocoapods</span><br></pre></td></tr></table></figure>
+<p>如果报以下错误：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">ERROR:</span>  While executing gem ... (Errno::EPERM)</span><br><span class="line">Operation <span class="keyword">not</span> permitted - <span class="regexp">/usr/bin</span><span class="regexp">/xcodeproj</span></span><br></pre></td></tr></table></figure>
+<p>说明没有权限，需要输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install -n /usr/<span class="built_in">local</span>/bin cocoapods</span><br></pre></td></tr></table></figure>
+<p>安装成功后</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod setup</span><br></pre></td></tr></table></figure>
+<p>然后会出现 <strong>Setting up CocoaPods master repo</strong>，此时需要等待的时间较久，这一步是 Cocoapods 在将它的信息下载到 <strong>~/.cocoapods</strong> 目录下。<br>你可以<code>Command + N</code>新建一个终端窗口，执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.cocoapods/</span><br><span class="line">du -sh *</span><br></pre></td></tr></table></figure>
+<p>查看下载进度，安装成功后,你会看到 <strong>Setup completed</strong></p>
+<p><strong>注意：</strong>CocoaPods 1.8.0以后不再需要执行 <code>pod setup</code> ，而是会在执行 <code>pod search xxxx</code> 时自动创建索引。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><hr>
+<h4 id="1-新建-Podfile文件"><a href="#1-新建-Podfile文件" class="headerlink" title="1. 新建 Podfile文件"></a>1. 新建 Podfile文件</h4><p>使用时需要在你的项目根目录下新建一个名为 <strong>Podfile</strong> 的文件，在工程目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch Podfile</span><br></pre></td></tr></table></figure>
+<h4 id="2-查找第三方库"><a href="#2-查找第三方库" class="headerlink" title="2. 查找第三方库"></a>2. 查找第三方库</h4><p>以 <strong>AFNetworking</strong> 为例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod search AFNetworking</span><br></pre></td></tr></table></figure>
+<p>如果出现</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[!] Unable to find a pod with name, author, summary, <span class="keyword">or</span> description matching <span class="string">`AFNetworking`</span></span><br></pre></td></tr></table></figure>
+<p>这是因为之前pod search的时候生成了缓存文件 <strong>search_index.json</strong> ，执行 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm ~/Library/Caches/CocoaPods/search_index.json</span><br></pre></td></tr></table></figure>
+<p>来删除该文件，然后再次搜索<br>若搜索后会出现</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">-&gt; AFNetworking (<span class="number">3.1</span>.<span class="number">0</span>)</span><br><span class="line">   A delightful iOS <span class="keyword">and</span> OS X networking framework.</span><br><span class="line">   pod <span class="string">'AFNetworking'</span>, <span class="string">'~&gt; 3.1.0'</span></span><br><span class="line">   - <span class="symbol">Homepage:</span> <span class="symbol">https:</span>/<span class="regexp">/github.com/</span>AFNetworking/AFNetworking</span><br><span class="line">   - <span class="symbol">Source:</span>   <span class="symbol">https:</span>/<span class="regexp">/github.com/</span>AFNetworking/AFNetworking.git</span><br><span class="line">   - <span class="symbol">Versions:</span> <span class="number">3.1</span>.<span class="number">0</span>, <span class="number">3.0</span>.<span class="number">4</span>, <span class="number">3.0</span>.<span class="number">3</span>, <span class="number">3.0</span>.<span class="number">2</span>, <span class="number">3.0</span>.<span class="number">1</span>, <span class="number">3.0</span>.<span class="number">0</span>, <span class="number">3.0</span>.<span class="number">0</span>-beta.<span class="number">3</span>,</span><br><span class="line">   <span class="number">3.0</span>.<span class="number">0</span>-beta.<span class="number">2</span>, <span class="number">3.0</span>.<span class="number">0</span>-beta.<span class="number">1</span>, <span class="number">2.6</span>.<span class="number">3</span>, <span class="number">2.6</span>.<span class="number">2</span>, <span class="number">2.6</span>.<span class="number">1</span>, <span class="number">2.6</span>.<span class="number">0</span>, <span class="number">2.5</span>.<span class="number">4</span>, <span class="number">2.5</span>.<span class="number">3</span>, <span class="number">2.5</span>.<span class="number">2</span>,</span><br><span class="line">   <span class="number">2.5</span>.<span class="number">1</span>, <span class="number">2.5</span>.<span class="number">0</span>, <span class="number">2.4</span>.<span class="number">1</span>, <span class="number">2.4</span>.<span class="number">0</span>, <span class="number">2.3</span>.<span class="number">1</span>, <span class="number">2.3</span>.<span class="number">0</span>, <span class="number">2.2</span>.<span class="number">4</span>, <span class="number">2.2</span>.<span class="number">3</span>, <span class="number">2.2</span>.<span class="number">2</span>, <span class="number">2.2</span>.<span class="number">1</span>, <span class="number">2.2</span>.<span class="number">0</span>,</span><br><span class="line">   <span class="number">2.1</span>.<span class="number">0</span>, <span class="number">2.0</span>.<span class="number">3</span>, <span class="number">2.0</span>.<span class="number">2</span>, <span class="number">2.0</span>.<span class="number">1</span>, <span class="number">2.0</span>.<span class="number">0</span>, <span class="number">2.0</span>.<span class="number">0</span>-RC3, <span class="number">2.0</span>.<span class="number">0</span>-RC2, <span class="number">2.0</span>.<span class="number">0</span>-RC1, <span class="number">1.3</span>.<span class="number">4</span>,</span><br><span class="line">   <span class="number">1.3</span>.<span class="number">3</span>, <span class="number">1.3</span>.<span class="number">2</span>, <span class="number">1.3</span>.<span class="number">1</span>, <span class="number">1.3</span>.<span class="number">0</span>, <span class="number">1.2</span>.<span class="number">1</span>, <span class="number">1.2</span>.<span class="number">0</span>, <span class="number">1.1</span>.<span class="number">0</span>, <span class="number">1.0</span>.<span class="number">1</span>, <span class="number">1.0</span>, <span class="number">1.0</span>RC3, <span class="number">1.0</span>RC2,</span><br><span class="line">   <span class="number">1.0</span>RC1, <span class="number">0</span>.<span class="number">10.1</span>, <span class="number">0</span>.<span class="number">10.0</span>, <span class="number">0</span>.<span class="number">9.2</span>, <span class="number">0</span>.<span class="number">9.1</span>, <span class="number">0</span>.<span class="number">9.0</span>, <span class="number">0</span>.<span class="number">7.0</span>, <span class="number">0</span>.<span class="number">5.1</span> [master repo]</span><br><span class="line">   - <span class="symbol">Subspecs:</span></span><br><span class="line">     - AFNetworking/Serialization (<span class="number">3.1</span>.<span class="number">0</span>)</span><br><span class="line">     - AFNetworking/Security (<span class="number">3.1</span>.<span class="number">0</span>)</span><br><span class="line">     - AFNetworking/Reachability (<span class="number">3.1</span>.<span class="number">0</span>)</span><br><span class="line">     - AFNetworking/NSURLSession (<span class="number">3.1</span>.<span class="number">0</span>)</span><br><span class="line">     - AFNetworking/UIKit (<span class="number">3.1</span>.<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>我们需要用到上面的 <code>pod &#39;AFNetworking&#39;, &#39;~&gt; 3.1.0&#39;</code></p>
+<h4 id="3-编辑Podfile"><a href="#3-编辑Podfile" class="headerlink" title="3. 编辑Podfile"></a>3. 编辑Podfile</h4><p>使用vim编辑 <strong>Podfile</strong> 文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim Podfile</span><br></pre></td></tr></table></figure>
+<p>会出现</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line"><span class="string">"podfile"</span> 0L, 0C</span><br></pre></td></tr></table></figure>
+<p>按下键盘上的英文 <code>I</code> 键，会变成</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">-- INSERT --</span><br></pre></td></tr></table></figure>
+<p>然后就可以编辑了，输入一下文字</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, <span class="string">'8.0'</span> <span class="comment">#当前工程最低支持iOS 8.0</span></span><br><span class="line"></span><br><span class="line">inhibit_all_warnings! <span class="comment">#屏蔽所有的警告</span></span><br><span class="line"></span><br><span class="line">target <span class="string">'NAME'</span> <span class="keyword">do</span>    <span class="comment">#NAME是工程的名字</span></span><br><span class="line"></span><br><span class="line">pod <span class="string">'AFNetworking'</span>, <span class="string">'~&gt; 3.1.0'</span> <span class="comment">#导入AFNetworking 3.1.0的版本</span></span><br><span class="line"></span><br><span class="line">end</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">-- INSERT --</span><br></pre></td></tr></table></figure>
+<p>接下来保存文件，按下键盘的 <code>esc</code> 键，然后按下输入 <code>:wq</code>，按下 <code>enter</code>键就保存退出了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, <span class="string">'8.0'</span> <span class="comment">#当前工程最低支持iOS 8.0</span></span><br><span class="line"></span><br><span class="line">inhibit_all_warnings! <span class="comment">#屏蔽所有的警告</span></span><br><span class="line"></span><br><span class="line">target <span class="string">'Project'</span> <span class="keyword">do</span>    <span class="comment"># Project是工程的名字</span></span><br><span class="line"></span><br><span class="line">pod <span class="string">'AFNetworking'</span>, <span class="string">'~&gt; 3.1.0'</span> <span class="comment">#导入AFNetworking 3.1.0的版本</span></span><br><span class="line"></span><br><span class="line">end</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">:wq</span><br></pre></td></tr></table></figure>
+<h4 id="4-导入第三方库"><a href="#4-导入第三方库" class="headerlink" title="4. 导入第三方库"></a>4. 导入第三方库</h4><p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure>
+<p>出现</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[!] Please close any current Xcode sessions <span class="keyword">and</span> use <span class="string">`Project.xcworkspace`</span> <span class="keyword">for</span> this project from now on.</span><br><span class="line">Sending stats</span><br><span class="line">Pod installation complete! There is <span class="number">1</span> dependency from the Podfile <span class="keyword">and</span> <span class="number">1</span> total pod installed.</span><br></pre></td></tr></table></figure>
+<p>即表示执行成功，此时工程目录会多出 <strong>Project.xcworkspace</strong>、<strong>Podfile.lock</strong> 文件和 <strong>Pods</strong>文件夹，上面提醒我们从现在开始，打开 <strong>Project.xcworkspace</strong> 来开发，进入工程后，引入头文件不再是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;AFNetworking.h&quot;</span><br></pre></td></tr></table></figure>
+<p>而是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;AFNetworking.h&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="原理和说明"><a href="#原理和说明" class="headerlink" title="原理和说明"></a>原理和说明</h3><hr>
+<ul>
+<li><p>**  第三方库会被编译成.a静态库供我们真正的工程使用：**<br>CocoaPods 会将所有的第三方库以 <strong>target</strong> 的方式组成一个名为 <strong>Pods</strong> 的工程，该工程就放在刚才新生成的 <strong>Pods</strong> 目录下。整个第三方库工程会生成一个名称为 <strong>libPods.a</strong> 的静态库提供给我们自己的工程使用。<br>对于资源文件，CocoaPods 提供了一个名为 <strong>Pods-resources.sh</strong> 的 <strong>bash</strong> 脚本，该脚本在每次项目编译的时候都会执行，将第三方库的各种资源文件复制到目标目录中。</p>
+</li>
+<li><p>** 我们的工程和第三方库所在的工程会由一个新生成的 workspace 管理：**<br>为了方便我们直观的管理工程和第三方库，工程和<strong>Pods</strong>工程会被以 <strong>workspace</strong> 的形式组织和管理。</p>
+</li>
+<li><p>**  原来的工程设置已经被更改了，这时候我们直接打开原来的工程文件去编译就会报错，只能使用新生成的 workspace 来进行项目管理。** </p>
+</li>
+<li><p>**  CocoaPods 通过一个名为 Pods.xcconfig 的文件来在编译时设置所有的依赖和参数** </p>
+</li>
+</ul>
+<h3 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h3><hr>
+<ul>
+<li><h6 id="CocoaPods不完全食用指南-—-制作篇"><a href="#CocoaPods不完全食用指南-—-制作篇" class="headerlink" title="CocoaPods不完全食用指南 — 制作篇"></a><a href="https://blog.yanfj.com/archives/32fee8af.html">CocoaPods不完全食用指南 — 制作篇</a></h6></li>
+<li><h6 id="CocoaPods不完全食用指南-—-私有篇"><a href="#CocoaPods不完全食用指南-—-私有篇" class="headerlink" title="CocoaPods不完全食用指南 — 私有篇"></a><a href="https://blog.yanfj.com/archives/87342b1d.html">CocoaPods不完全食用指南 — 私有篇</a></h6></li>
+<li><h6 id="CocoaPods不完全食用指南-—-指令集"><a href="#CocoaPods不完全食用指南-—-指令集" class="headerlink" title="CocoaPods不完全食用指南 — 指令集"></a><a href="https://blog.yanfj.com/archives/fd41bff3.html">CocoaPods不完全食用指南 — 指令集</a></h6></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CocoaPods/" rel="tag"><i class="fa fa-tag"></i> CocoaPods</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/beb65d75.html" rel="prev" title="公司开发者账号申请流程（2017最新版）">
+      <i class="fa fa-chevron-left"></i> 公司开发者账号申请流程（2017最新版）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/32fee8af.html" rel="next" title="CocoaPods不完全食用指南 — 制作篇">
+      CocoaPods不完全食用指南 — 制作篇 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YAN"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">YAN</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanfj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanfj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fab fa-grav"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YAN</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"bGQtVwlg97FnbHIxPf6BBBC4-gzGzoHsz","app_key":"riwbjxgwsAowuvzl5204weBq","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '6af4d222667c3c26701d',
+      clientSecret: '8fb2a28f3ecf6f8a541c2d70118ceb02ee6b6a77',
+      repo        : 'blog',
+      owner       : 'yanfj',
+      admin       : ['yanfj'],
+      id          : '72926a09336a8b173be162390c8a28c2',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

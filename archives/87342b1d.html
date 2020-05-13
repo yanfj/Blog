@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Wj07_Grms7lUpE8ZC-kSQZ3VfO5CKfpnp625yBizZlU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanfj.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="CocoaPods不完全食用指南 — 私有篇">
+<meta property="og:url" content="http://blog.yanfj.com/archives/87342b1d.html">
+<meta property="og:site_name" content="Yan&#39;s">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.yanfj.com/archives/87342b1d/0.png">
+<meta property="article:published_time" content="2017-08-24T09:05:42.000Z">
+<meta property="article:modified_time" content="2020-05-13T11:18:42.041Z">
+<meta property="article:author" content="YAN">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content=" CocoaPods">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.yanfj.com/archives/87342b1d/0.png">
+
+<link rel="canonical" href="http://blog.yanfj.com/archives/87342b1d.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CocoaPods不完全食用指南 — 私有篇 | Yan's</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Yan's" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yan's</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user-secret fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/yanfj" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanfj.com/archives/87342b1d.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yan's">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CocoaPods不完全食用指南 — 私有篇
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-08-24 17:05:42" itemprop="dateCreated datePublished" datetime="2017-08-24T17:05:42+08:00">2017-08-24</time>
+            </span>
+
+          
+            <span id="/archives/87342b1d.html" class="post-meta-item leancloud_visitors" data-flag-title="CocoaPods不完全食用指南 — 私有篇" title="热力值">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-ravelry"></i>
+              </span>
+              <span class="post-meta-item-text">热力值：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/archives/87342b1d/0.png" class="">
+
+<a id="more"></a>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
+<p>随着公司项目变多，很多公共组件需要进行模块化管理，但是公司的代码又不能放在 <strong>Github</strong> 上，从而诞生了 <strong>私有库</strong> 这种只面向部分人的第三方开源库，本章将详细讲解基于 CocoaPods 对于<strong>模块化</strong>和<strong>私有库</strong>的管理。</p>
+<h3 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h3><hr>
+<p><strong>私有库</strong> 的制作大致分为以下几个步骤:</p>
+<ol>
+<li>创建并设置一个私有的 <strong>Spec Repo</strong></li>
+<li>创建 <strong>Pod</strong> 的所需要的项目工程文件，并且有可访问的项目版本控制地址</li>
+<li>创建 <strong>Pod</strong> 所对应的 <strong>podspec</strong> 文件</li>
+<li>本地测试配置好 <strong>podspec</strong> 文件是否可用</li>
+<li>向私有的 <strong>Spec Repo</strong> 提交 <strong>podspec</strong> 文件</li>
+<li>在项目中的 <strong>Podfile</strong> 中增加制作好的 <strong>Pod</strong> 并使用</li>
+<li>更新维护 <strong>podspec</strong></li>
+<li>如果了解 <strong>公有库</strong> 的制作步骤，可以发现 <strong>私有库</strong> 的制作步骤多了一个创建私有的 <strong>Spec Repo</strong> 的过程，而且提交的过程也变成向私有 <strong>Spec Repo</strong> 提交了。</li>
+</ol>
+<p>在制作私有库之前，推荐不了解的 <a href="https://yanff.github.io/blog/2017/08/24/CocoaPods不完全食用指南-制作/" target="_blank" rel="noopener"><strong>公有库制作步骤</strong></a> 的同学先去了解一下</p>
+<h3 id="创建私有Spec-Repo"><a href="#创建私有Spec-Repo" class="headerlink" title="创建私有Spec Repo"></a>创建私有Spec Repo</h3><hr>
+<p><strong>Spec Repo</strong> 是一个装着所有 <strong>Pods</strong> 的索引容器，所有公开的 <strong>Pods</strong> 的索引都在这个里面，它是一个托管在 <strong>Github</strong> 的远程仓库。在本地使用 CocoaPods 后它会被 <code>clone</code>到本地的 <strong>~/.cocoapods/repos</strong> 目录下，进入该目录可以看到如下结构：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── master</span><br><span class="line">│   ├── CocoaPods-version.yml</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   └── Specs</span><br><span class="line">│       ├── <span class="number">0</span></span><br><span class="line">│       ├── <span class="number">1</span></span><br><span class="line">│       ├── <span class="number">2</span></span><br><span class="line">│       ├── <span class="number">3</span></span><br><span class="line">│       ├── <span class="number">4</span></span><br><span class="line">│       ├── <span class="number">5</span></span><br><span class="line">│       ├── <span class="number">6</span></span><br><span class="line">│       ├── <span class="number">7</span></span><br><span class="line">│       ├── <span class="number">8</span></span><br><span class="line">│       ├── <span class="number">9</span></span><br><span class="line">│       ├── a</span><br><span class="line">│       ├── b</span><br><span class="line">│       ├── c</span><br><span class="line">│       ├── d</span><br><span class="line">│       ├── e</span><br><span class="line">│       └── f</span><br></pre></td></tr></table></figure>
+
+<p><strong>Specs</strong> 文件夹中就是所有向 CocoaPods 注册过的第三方库的索引。因此，我们建立私有库的第一步就是建立一个私有的 <strong>Spec Repo</strong>，在公司的 <strong>Git</strong> 上创建一个私有的仓库 <strong>Spec Repo</strong>，然后在本地增加 CocoaPods 的私有 <strong>Spec Repo</strong> 仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># private 是本地私有仓库的名字</span></span><br><span class="line"><span class="comment"># 地址是私有仓库的可访问地址,最好是SSH地址</span></span><br><span class="line">pod repo add private root@git.canplay.com.cn:yanff/SpecRepo.git</span><br></pre></td></tr></table></figure>
+<p>此时到 <strong>~/.cocoapods/repos</strong> 目录，可以看到多了个 <strong>private</strong> 的文件夹：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── master</span><br><span class="line">│   ├── CocoaPods-version.yml</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   └── Specs</span><br><span class="line">│       ├── <span class="number">0</span></span><br><span class="line">│       ├── <span class="number">1</span></span><br><span class="line">│       ├── <span class="number">2</span></span><br><span class="line">│       ├── <span class="number">3</span></span><br><span class="line">│       ├── <span class="number">4</span></span><br><span class="line">│       ├── <span class="number">5</span></span><br><span class="line">│       ├── <span class="number">6</span></span><br><span class="line">│       ├── <span class="number">7</span></span><br><span class="line">│       ├── <span class="number">8</span></span><br><span class="line">│       ├── <span class="number">9</span></span><br><span class="line">│       ├── a</span><br><span class="line">│       ├── b</span><br><span class="line">│       ├── c</span><br><span class="line">│       ├── d</span><br><span class="line">│       ├── e</span><br><span class="line">│       └── f</span><br><span class="line">└── private</span><br><span class="line">    ├── LICENSE</span><br><span class="line">    └── README.md</span><br></pre></td></tr></table></figure>
+<p>此时创建私有 <strong>Spec Repo</strong> 的步骤就完成了</p>
+<h3 id="创建私有Pod工程文件"><a href="#创建私有Pod工程文件" class="headerlink" title="创建私有Pod工程文件"></a>创建私有Pod工程文件</h3><hr>
+<p>创建与测试的过程在这里不再详解，需要注意的是:<br><strong>Pod</strong> 项目工程文件所添加的远程仓库应该也在公司的 <strong>Git</strong> 上，而且拥有地址的访问权限，<strong>Podsepc</strong> 文件中的地址最好是仓库的 <strong>SSH</strong> 地址。</p>
+<h3 id="Spec-Repo提交podspec"><a href="#Spec-Repo提交podspec" class="headerlink" title="Spec Repo提交podspec"></a>Spec Repo提交podspec</h3><hr>
+<p>与创建 <strong>公有库</strong> 不同的是，此时提交应该向私有 <strong>Spec Repo</strong> 提交</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># private 是本地私有仓库的名字</span></span><br><span class="line">pod repo push private PodDemo.podspec</span><br></pre></td></tr></table></figure>
+<p>此时在之前建立的远程 Spec Repo 仓库里能看到我们提交的 <strong>podspec</strong> 文件了</p>
+<p>最后更新一下本地的私有 <strong>Spec Repo</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># private 是本地私有仓库的名字</span></span><br><span class="line">pod repo update private</span><br></pre></td></tr></table></figure>
+<p>然后输入搜索命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod search PodDemo</span><br></pre></td></tr></table></figure>
+<p>就可以搜索到刚刚提交的库了</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-&gt; PodDemo (<span class="number">1.0</span>.<span class="number">0</span>)</span><br><span class="line">   a brief introduction</span><br><span class="line">   pod <span class="string">'PodDemo'</span>, <span class="string">'~&gt; 1.0.0'</span></span><br><span class="line">   - <span class="symbol">Homepage:</span> <span class="symbol">https:</span>/<span class="regexp">/root@git.canplay.com.cn:yanff/</span>PodDemo</span><br><span class="line">   - <span class="symbol">Source:</span>   <span class="symbol">https:</span>/<span class="regexp">/root@git.canplay.com.cn:yanff/</span>PodDemo.git</span><br><span class="line">   - <span class="symbol">Versions:</span> <span class="number">1.0</span>.<span class="number">0</span> [private repo]</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们的私有库就制作完毕了。</p>
+<h3 id="在Podfile中加入私有Spec-Repo地址"><a href="#在Podfile中加入私有Spec-Repo地址" class="headerlink" title="在Podfile中加入私有Spec Repo地址"></a>在Podfile中加入私有Spec Repo地址</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">platform <span class="symbol">:ios</span>, <span class="string">'8.0'</span> <span class="comment">#当前工程最低支持iOS 8.0</span></span><br><span class="line"></span><br><span class="line">source <span class="string">'https://github.com/CocoaPods/Specs.git'</span>  <span class="comment"># 官方库</span></span><br><span class="line">source <span class="string">'root@git.canplay.com.cn:yanff/SpecRepo.git'</span>  <span class="comment"># 私有库</span></span><br><span class="line"></span><br><span class="line">target <span class="string">'NAME'</span> <span class="keyword">do</span>    <span class="comment">#NAME是工程的名字</span></span><br><span class="line"></span><br><span class="line">pod <span class="string">'AFNetworking'</span>, <span class="string">'~&gt; 3.1.0'</span> <span class="comment">#导入AFNetworking 3.1.0的版本</span></span><br><span class="line"></span><br><span class="line">pod <span class="string">'PodDemo'</span>, <span class="string">'~&gt; 1.0.0'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">-- INSERT --</span><br></pre></td></tr></table></figure>
+<p>然后执行命令就可以使用私有库了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><hr>
+<p>如果有其他合作人员共同使用这个<strong>私有库</strong> 的话，需要给予对应远程 <strong>私有库</strong> 仓库和 <strong>Spec Repo</strong> 仓库的权限，最好使用 <strong>SSH</strong> 认证连接 ，然后再执行上面的命令添加这个 Spec Repo 到本地即可。</p>
+<h3 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h3><hr>
+<ul>
+<li><h6 id="CocoaPods不完全食用指南-—-入门篇"><a href="#CocoaPods不完全食用指南-—-入门篇" class="headerlink" title="CocoaPods不完全食用指南 — 入门篇"></a><a href="https://blog.yanfj.com/archives/b76b30a0.html">CocoaPods不完全食用指南 — 入门篇</a></h6></li>
+<li><h6 id="CocoaPods不完全食用指南-—-制作篇"><a href="#CocoaPods不完全食用指南-—-制作篇" class="headerlink" title="CocoaPods不完全食用指南 — 制作篇"></a><a href="https://blog.yanfj.com/archives/32fee8af.html">CocoaPods不完全食用指南 — 制作篇</a></h6></li>
+<li><h6 id="CocoaPods不完全食用指南-—-指令集"><a href="#CocoaPods不完全食用指南-—-指令集" class="headerlink" title="CocoaPods不完全食用指南 — 指令集"></a><a href="https://blog.yanfj.com/archives/fd41bff3.html">CocoaPods不完全食用指南 — 指令集</a></h6></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CocoaPods/" rel="tag"><i class="fa fa-tag"></i> CocoaPods</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/32fee8af.html" rel="prev" title="CocoaPods不完全食用指南 — 制作篇">
+      <i class="fa fa-chevron-left"></i> CocoaPods不完全食用指南 — 制作篇
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/fd41bff3.html" rel="next" title="CocoaPods不完全食用指南 — 指令集">
+      CocoaPods不完全食用指南 — 指令集 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YAN"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">YAN</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanfj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanfj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fab fa-grav"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YAN</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"bGQtVwlg97FnbHIxPf6BBBC4-gzGzoHsz","app_key":"riwbjxgwsAowuvzl5204weBq","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '6af4d222667c3c26701d',
+      clientSecret: '8fb2a28f3ecf6f8a541c2d70118ceb02ee6b6a77',
+      repo        : 'blog',
+      owner       : 'yanfj',
+      admin       : ['yanfj'],
+      id          : '2643fd520bfe8a117fe870494f151797',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
