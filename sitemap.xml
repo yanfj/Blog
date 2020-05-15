@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanfj.com/about/index.html</loc>
+    
+    <lastmod>2020-05-15T03:56:12.117Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanfj.com/archives/c423532a.html</loc>
     
     <lastmod>2020-05-15T02:48:04.722Z</lastmod>
@@ -51,14 +58,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanfj.com/archives/c77ef3dc.html</loc>
+    <loc>http://blog.yanfj.com/archives/eaf706e1.html</loc>
     
     <lastmod>2020-05-13T11:18:42.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanfj.com/archives/eaf706e1.html</loc>
+    <loc>http://blog.yanfj.com/archives/c77ef3dc.html</loc>
     
     <lastmod>2020-05-13T11:18:42.000Z</lastmod>
     
@@ -80,13 +87,6 @@
   
   <url>
     <loc>http://blog.yanfj.com/archives/628ebedf.html</loc>
-    
-    <lastmod>2020-05-13T11:18:42.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanfj.com/about/index.html</loc>
     
     <lastmod>2020-05-13T11:18:42.000Z</lastmod>
     

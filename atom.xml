@@ -56,9 +56,9 @@
     
     
     
-      <category term="macOS" scheme="http://blog.yanfj.com/tags/macOS/"/>
-    
       <category term="命令行" scheme="http://blog.yanfj.com/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+      <category term="macOS" scheme="http://blog.yanfj.com/tags/macOS/"/>
     
   </entry>
   
@@ -79,9 +79,9 @@
     
     
     
-      <category term="macOS" scheme="http://blog.yanfj.com/tags/macOS/"/>
-    
       <category term="命令行" scheme="http://blog.yanfj.com/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+      <category term="macOS" scheme="http://blog.yanfj.com/tags/macOS/"/>
     
   </entry>
   
@@ -125,11 +125,11 @@
     
     
     
-      <category term="macOS" scheme="http://blog.yanfj.com/tags/macOS/"/>
-    
       <category term="命令行" scheme="http://blog.yanfj.com/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
     
       <category term="Zsh" scheme="http://blog.yanfj.com/tags/Zsh/"/>
+    
+      <category term="macOS" scheme="http://blog.yanfj.com/tags/macOS/"/>
     
   </entry>
   
