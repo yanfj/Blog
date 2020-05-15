@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://blog.yanfj.com/archives/ea4b7a86/0.png">
 <meta property="article:published_time" content="2019-12-28T08:49:07.000Z">
-<meta property="article:modified_time" content="2020-05-13T11:18:42.000Z">
+<meta property="article:modified_time" content="2020-05-15T09:02:12.653Z">
 <meta property="article:author" content="YAN">
 <meta property="article:tag" content="macOS">
 <meta property="article:tag" content=" 命令行">
@@ -250,6 +250,15 @@
 <hr>
 <h2 id="自动开机"><a href="#自动开机" class="headerlink" title="自动开机"></a>自动开机</h2><p>苹果从 2016款的MacBook Pro就增加了自动开机功能，每当我们翻开屏幕上盖以后，MacBook就会自动开机，如果不喜欢此功能，在 <strong>“终端”</strong> 输入以下命令可以设置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">关闭自动开机</span><br><span class="line">sudo nvram AutoBoot=%00</span><br><span class="line"></span><br><span class="line">开启自动开机</span><br><span class="line">sudo nvram AutoBoot=%03</span><br><span class="line"></span><br><span class="line">开启开机音效</span><br><span class="line">sudo nvram BootAudio=%01</span><br><span class="line"></span><br><span class="line">关闭开机音效</span><br><span class="line">sudo nvram BootAudio=%00</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="重签名软件"><a href="#重签名软件" class="headerlink" title="重签名软件"></a>重签名软件</h2><p>因为Apple苹果公司删除了TNT的证书，所以在2019年7月12日后TNT破解的软件都不能运行了，临时的解决办法，就是自己签名。</p>
+<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>首先需要安装 Xcode，可以在App Store中下载安装，并且至少运行一次。</p>
+<p>安装Command Line Tools 工具，打开终端工具输入如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br></pre></td></tr></table></figure>
+<p>弹出后选择继续安装。</p>
+<h4 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h4><p>打开终端工具输入并执行如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign --force --deep --sign - /Applications/name.app</span><br></pre></td></tr></table></figure>
+<p>注意后面的文件路径，你可以打开访达找到应用程序，找到要签名的软件，直接拖入 终端 界面，即可自动生成路径。</p>
 
     </div>
 
@@ -260,8 +269,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/" rel="tag"><i class="fa fa-tag"></i> 命令行</a>
               <a href="/tags/macOS/" rel="tag"><i class="fa fa-tag"></i> macOS</a>
+              <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/" rel="tag"><i class="fa fa-tag"></i> 命令行</a>
           </div>
 
         
