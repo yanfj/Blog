@@ -56,9 +56,9 @@
       
         <tags>
             
-            <tag> 命令行 </tag>
-            
             <tag> macOS </tag>
+            
+            <tag> 命令行 </tag>
             
         </tags>
       
@@ -71,15 +71,15 @@
       <link href="/archives/ea4b7a86.html"/>
       <url>/archives/ea4b7a86.html</url>
       
-        <content type="html"><![CDATA[<img src="/archives/ea4b7a86/0.png" class=""><a id="more"></a><hr><h2 id="允许任何来源"><a href="#允许任何来源" class="headerlink" title="允许任何来源"></a>允许任何来源</h2><p>我们打开一些应用文件时会失败并且提示 <strong>“来自身份不明的开发者”</strong>，此时开启<strong>“设置”</strong> → <strong>“安全与隐私”</strong> 中的 <strong>“任何来源”</strong> 即可解决问题。但 <strong>macOS 10.13</strong> 以后的系统默认没有这一选项，此时在 <strong>“终端”</strong> 中输入以下命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo spctl --master-disable</span><br></pre></td></tr></table></figure><p>执行上述步骤之后，<strong>“任何来源”</strong> 选项就会出现了。</p><p><strong>注意：</strong>如果在系统偏好设置的 <strong>“安全与隐私”</strong> 中重新选中允许 <strong>“App Store</strong> 和 <strong>“被认可的开发者”</strong>，允许 <strong>“任何来源”</strong> 的选项会再次消失，可运行上述命令再次开启。</p><hr><h2 id="自动开机"><a href="#自动开机" class="headerlink" title="自动开机"></a>自动开机</h2><p>苹果从 2016款的MacBook Pro就增加了自动开机功能，每当我们翻开屏幕上盖以后，MacBook就会自动开机，如果不喜欢此功能，在 <strong>“终端”</strong> 输入以下命令可以设置：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">关闭自动开机</span><br><span class="line">sudo nvram AutoBoot=%00</span><br><span class="line"></span><br><span class="line">开启自动开机</span><br><span class="line">sudo nvram AutoBoot=%03</span><br><span class="line"></span><br><span class="line">开启开机音效</span><br><span class="line">sudo nvram BootAudio=%01</span><br><span class="line"></span><br><span class="line">关闭开机音效</span><br><span class="line">sudo nvram BootAudio=%00</span><br></pre></td></tr></table></figure><hr><h2 id="重签名软件"><a href="#重签名软件" class="headerlink" title="重签名软件"></a>重签名软件</h2><p>因为Apple苹果公司删除了TNT的证书，所以在2019年7月12日后TNT破解的软件都不能运行了，临时的解决办法，就是自己签名。</p><h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>首先需要安装 Xcode，可以在App Store中下载安装，并且至少运行一次。</p><p>安装Command Line Tools 工具，打开终端工具输入如下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br></pre></td></tr></table></figure><p>弹出后选择继续安装。</p><h4 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h4><p>打开终端工具输入并执行如下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign --force --deep --sign - /Applications/name.app</span><br></pre></td></tr></table></figure><p>注意后面的文件路径，你可以打开访达找到应用程序，找到要签名的软件，直接拖入 终端 界面，即可自动生成路径。</p>]]></content>
+        <content type="html"><![CDATA[<img src="/archives/ea4b7a86/0.png" class=""><a id="more"></a><hr><h2 id="允许任何来源"><a href="#允许任何来源" class="headerlink" title="允许任何来源"></a>允许任何来源</h2><p>我们打开一些应用文件时会失败并且提示 <strong>“来自身份不明的开发者”</strong>，此时开启<strong>“设置”</strong> → <strong>“安全与隐私”</strong> 中的 <strong>“任何来源”</strong> 即可解决问题。但 <strong>macOS 10.13</strong> 以后的系统默认没有这一选项，此时在 <strong>“终端”</strong> 中输入以下命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo spctl --master-disable</span><br></pre></td></tr></table></figure><p>执行上述步骤之后，<strong>“任何来源”</strong> 选项就会出现了。</p><p><strong>注意：</strong>如果在系统偏好设置的 <strong>“安全与隐私”</strong> 中重新选中允许 <strong>“App Store</strong> 和 <strong>“被认可的开发者”</strong>，允许 <strong>“任何来源”</strong> 的选项会再次消失，可运行上述命令再次开启。</p><hr><h2 id="自动开机"><a href="#自动开机" class="headerlink" title="自动开机"></a>自动开机</h2><p>苹果从 2016款的MacBook Pro就增加了自动开机功能，每当我们翻开屏幕上盖以后，MacBook就会自动开机，如果不喜欢此功能，在 <strong>“终端”</strong> 输入以下命令可以设置：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">关闭自动开机</span><br><span class="line">sudo nvram AutoBoot=%00</span><br><span class="line"></span><br><span class="line">开启自动开机</span><br><span class="line">sudo nvram AutoBoot=%03</span><br><span class="line"></span><br><span class="line">开启开机音效</span><br><span class="line">sudo nvram BootAudio=%01</span><br><span class="line"></span><br><span class="line">关闭开机音效</span><br><span class="line">sudo nvram BootAudio=%00</span><br></pre></td></tr></table></figure><hr><h2 id="重签名软件"><a href="#重签名软件" class="headerlink" title="重签名软件"></a>重签名软件</h2><p>因为Apple苹果公司删除了TNT的证书，所以在2019年7月12日后TNT破解的软件都不能运行了，临时的解决办法，就是自己签名。</p><h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>首先需要安装 Xcode，可以在App Store中下载安装，并且至少运行一次。</p><p>安装Command Line Tools 工具，打开终端工具输入如下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br></pre></td></tr></table></figure><p>弹出后选择继续安装。</p><h4 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h4><p>打开终端工具输入并执行如下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign --force --deep --sign - /Applications/name.app</span><br></pre></td></tr></table></figure><p>注意后面的文件路径，你可以打开访达找到应用程序，找到要签名的软件，直接拖入 终端 界面，即可自动生成路径。</p><hr><h2 id="启动台出现两个相同快捷方式"><a href="#启动台出现两个相同快捷方式" class="headerlink" title="启动台出现两个相同快捷方式"></a>启动台出现两个相同快捷方式</h2><p>进入以下目录</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/Library/Application Support/Dock</span><br></pre></td></tr></table></figure><p>删除里面的 <code>.db</code> 文件，然后重启电脑即可</p>]]></content>
       
       
       
         <tags>
             
-            <tag> 命令行 </tag>
-            
             <tag> macOS </tag>
+            
+            <tag> 命令行 </tag>
             
         </tags>
       
@@ -119,9 +119,9 @@
       
         <tags>
             
-            <tag> 命令行 </tag>
-            
             <tag> macOS </tag>
+            
+            <tag> 命令行 </tag>
             
             <tag> Zsh </tag>
             
@@ -142,9 +142,9 @@
       
         <tags>
             
-            <tag> macOS </tag>
-            
             <tag> ShadowsocksR </tag>
+            
+            <tag> macOS </tag>
             
         </tags>
       

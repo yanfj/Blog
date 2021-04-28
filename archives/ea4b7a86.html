@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://blog.yanfj.com/archives/ea4b7a86/0.png">
 <meta property="article:published_time" content="2019-12-28T08:49:07.000Z">
-<meta property="article:modified_time" content="2020-05-15T09:02:12.653Z">
+<meta property="article:modified_time" content="2021-04-28T03:21:08.958Z">
 <meta property="article:author" content="YAN">
 <meta property="article:tag" content="macOS">
 <meta property="article:tag" content=" 命令行">
@@ -259,6 +259,10 @@
 <h4 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h4><p>打开终端工具输入并执行如下命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign --force --deep --sign - /Applications/name.app</span><br></pre></td></tr></table></figure>
 <p>注意后面的文件路径，你可以打开访达找到应用程序，找到要签名的软件，直接拖入 终端 界面，即可自动生成路径。</p>
+<hr>
+<h2 id="启动台出现两个相同快捷方式"><a href="#启动台出现两个相同快捷方式" class="headerlink" title="启动台出现两个相同快捷方式"></a>启动台出现两个相同快捷方式</h2><p>进入以下目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/Library/Application Support/Dock</span><br></pre></td></tr></table></figure>
+<p>删除里面的 <code>.db</code> 文件，然后重启电脑即可</p>
 
     </div>
 
@@ -269,8 +273,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/" rel="tag"><i class="fa fa-tag"></i> 命令行</a>
               <a href="/tags/macOS/" rel="tag"><i class="fa fa-tag"></i> macOS</a>
+              <a href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/" rel="tag"><i class="fa fa-tag"></i> 命令行</a>
           </div>
 
         
@@ -412,7 +416,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fab fa-grav"></i>
   </span>
