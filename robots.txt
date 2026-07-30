@@ -11,5 +11,5 @@ Disallow: /vendors/
 Disallow: /fancybox/
 
 
-Sitemap: https://blog.yanfj.com/sitemap.xml
-Sitemap: https://blog.yanfj.com/baidusitemap.xml
+Sitemap: https://blog.nubi.im/sitemap.xml
+Sitemap: https://blog.nubi.im/baidusitemap.xml
